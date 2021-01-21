@@ -1,0 +1,86 @@
+﻿@model CLINIC.Models.tbl_User
+
+@{
+    ViewBag.Title = "Editar Usuario";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="card text-center">
+        <div class="card-body">
+            @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { @class = "form", @id = "frmEditUser" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Nombre</label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "Name", @type = "text", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="UserName">Nombre de Usuario</label>
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "UserName", @type = "text", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Email">Correo</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "Email", @type = "email", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Role">Rol</label>
+                            @Html.DropDownListFor(m => m.IdRole, new SelectList(ViewBag.Roles, "Id", "Name"), new { @id = "Role", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Country">País</label>
+                            @Html.DropDownListFor(m => m.IdCountry, new SelectList(ViewBag.Countries, "Id", "Name"), new { @id = "Country", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Address">Dirección</label>
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @id = "Address", @type = "text" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Phone">Teléfono</label>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @id = "Phone", @type = "tel" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Status">Estado</label>
+                            <b>Activo</b> @Html.RadioButtonFor(m => m.Status, "A", "Activo")
+                            <b>Inactivo</b> @Html.RadioButtonFor(m => m.Status, "I", "Inactivo")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="center-align">
+                            <button type="submit" class="btn btn-block btn-outline-success">Modificar Usuario</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer text-danger">
+            <p id="Message">@Html.ValidationSummary(true, "", new { @class = "text-title" })</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CLINIC.Models.tbl_Menu>
+
+@foreach (var menu in Model)
+{
+    if (menu.IdParentMenu == 0)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="@menu.Id" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="@menu.MenuIcon"></i>
+                <span class="title">@menu.Name</span>
+                <span class="arrow"></span>
+            </a>
+
+            @foreach (var child in Model)
+            {
+                if (child.IdParentMenu == menu.IdParentMenu)
+                {
+                    <div class="dropdown-menu" aria-labelledby="@menu.Id">
+                        <ul class="sub-menu" style="list-style-type: none; padding: 0;">
+                            @foreach (var childx in Model)
+                            {
+                                if (childx.IdParentMenu == menu.Id)
+                                {
+                                    <li class="nav-item">
+                                        <a href="@childx.MenuUrl" class="nav-link" style="width: 189px;">
+                                            <i class="@childx.MenuIcon"></i>
+                                            <span class="title">@childx.Name</span>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+
+        </li>
+    }
+}

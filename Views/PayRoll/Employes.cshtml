@@ -1,0 +1,251 @@
+﻿
+@{
+    ViewBag.Title = "Employes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Employes/Index">Empleados</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Empleados</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users"></i>
+        Empleados
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="NewEmploye()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+
+            <button class="btn btn-warning" disabled id="btnEdit" onclick="EditEmploye()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+
+            <button class="btn btn-info" disabled id="btnPayment" onclick="CreatePayment()">
+                <i class="fas fa-money-bill"></i>
+                Crear Pago
+            </button>
+
+            <button class="btn btn-primary" id="btnPaymentAll" onclick="CreatePaymentAll()">
+                <i class="fas fa-money-check"></i>
+                Crear Pago Todos
+            </button>
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblEmployes" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>DUI</th>
+                        <th>NIT</th>
+                        <th hidden>Dirección</th>
+                        <th hidden>Telefono</th>
+                        <th>Cargo</th>
+                        <th hidden>Salario</th>
+                        <th hidden>Aguinaldo</th>
+                        <th hidden>Indemnización</th>
+                        <th hidden>Vacaciones</th>
+                        <th hidden>Tipo Pago</th>
+                        <th>Fecha Contat.</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Employes)
+                    {
+                        <tr>
+                            <td>@item.IdEmploye</td>
+                            <td>@item.EmployeName</td>
+                            <td>@item.EmployeLastName</td>
+                            <td>@item.DUI</td>
+                            <td>@item.NIT</td>
+                            <td hidden>@item.Address</td>
+                            <td hidden>@item.Phone</td>
+                            <td>@item.Position</td>
+                            <td hidden>@item.Salary</td>
+                            <td hidden>@item.FlgBonus</td>
+                            <td hidden>@item.FlgCompensation</td>
+                            <td hidden>@item.FlgHolidays</td>
+                            <td hidden>@item.PaymentType</td>
+                            <td>@item.HiringDate.ToString("yyyy-MM-dd")</td>
+                            <td>@item.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalEmploye" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PatientName">Nombres</label>
+                                <input type="text" class="form-control" id="EmployeName" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PatientName">Apellidos</label>
+                                <input type="text" class="form-control" id="EmployeLastName" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="DUI">DUI</label>
+                                <input type="text" class="form-control" id="DUI" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="NIT">NIT</label>
+                                <input type="text" class="form-control" id="NIT" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Address">Dirección</label>
+                                <input type="text" class="form-control" id="Address" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Phone">Telefono</label>
+                                <input type="text" class="form-control" id="Phone" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Position">Cargo Laboral</label>
+                                <input type="text" class="form-control" id="Position" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Salary">Salario</label>
+                                <input type="text" class="form-control" id="Salary" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FlgBonus">Aguinaldo</label>
+                                <select class="form-control" id="FlgBonus">
+                                    <option value="">Selecione..</option>
+                                    <option value="S">ACTIVO</option>
+                                    <option value="N">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FlgCompensation">Indemnización</label>
+                                <select class="form-control" id="FlgCompensation">
+                                    <option value="">Selecione..</option>
+                                    <option value="S">ACTIVO</option>
+                                    <option value="N">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FlgHolidays">Vacaciones</label>
+                                <select class="form-control" id="FlgHolidays">
+                                    <option value="">Selecione..</option>
+                                    <option value="S">ACTIVO</option>
+                                    <option value="N">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status">Tipo de Pago</label>
+                                <select class="form-control" id="PaymentType">
+                                    <option value="">Selecione..</option>
+                                    <option value="C">CHEQUE</option>
+                                    <option value="E">EFECTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DateIn">Fecha Contratación</label>
+                            <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="HiringDate" onchange="" readonly>
+                                <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status">Estado</label>
+                                <select class="form-control" id="Status">
+                                    <option value="">Selecione..</option>
+                                    <option value="A">ACTIVO</option>
+                                    <option value="I">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Employes")
+}
+
+
+
+
+
+
+
+

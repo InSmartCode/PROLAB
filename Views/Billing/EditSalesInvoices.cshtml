@@ -1,0 +1,337 @@
+﻿
+@{
+    ViewBag.Title = "EditSalesInvoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    @*<link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />*@
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Billing/EditSalesInvoices">Editar Documento de Venta</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Editar Documento de Venta</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-alt"></i>
+        Venta
+    </div>
+    <div class="card-body">
+
+        <br />
+        <div class="row">
+            <div class="col-md-4" hidden>
+                <div class="inputs" id="OldCustomer">
+                    <div class="form-group form-md-line-input" id="form_control_1">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" class="form-control" id="idcliente" value="@ViewBag.Client.IdClientProv" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="inputs" id="OldCustomer">
+                    <div class="form-group form-md-line-input" id="form_control_1">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" class="form-control" id="cliente" value="@ViewBag.Client.ClienteProvName" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="NumAtCard">Correlativo de Factura</label>
+                <input type="text" class="form-control" id="NumAtCard" value="@ViewBag.Sale.NumAtCard" disabled/>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group form-md-line-input" id="form_control_1">
+                    <label for="cliente">Orden</label>
+                    <select class=" form-control" name="IdComentsOrder" id="IdComentsOrder" disabled style="width: 100%; height:38px;">
+                        <option value="" selected>Seleccione</option>
+                        @foreach (var item in ViewBag.Orders)
+                        {
+                            <option value="@item.IdComentsOrder">Orden #@item.IdComentsOrder - @item.CardName</option>
+                            if (ViewBag.Sale.IdComentsOrder == item.IdComentsOrder)
+                            {
+                                <option value="@item.IdComentsOrder" selected>Orden #@item.IdComentsOrder - @item.CardName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label for="DateIn">Fecha</label>
+                <input type="text" class="form-control" id="DocDate" value="@ViewBag.Sale.DocDate.ToString("dd/MM/yyyy")" disabled />
+            </div>
+            <div class="col-md-4" hidden>
+                <div class="form-group">
+                    <label for="SalesType">Tipo de Venta</label>
+                    <input type="text" class="form-control" id="SalesType" value="F" />
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-outline-success" onclick="newItem()">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Item
+                </button>
+
+                <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditItem()">
+                    <i class="fas fa-pen"></i>
+                    Modificar Item
+                </button>
+
+                <button class="btn btn-outline-danger" disabled id="btnDeleteItem">
+                    <i class="fas fa-minus"></i>
+                    Eliminar Item
+                </button>
+
+                <button class="btn btn-outline-success" onclick="SaveSale()">
+                    <i class="fas fa-file-archive"></i>
+                    Emitir Factura
+                </button>
+
+                <button class="btn btn-primary" id="Download">
+                    <i class="fas fa-download"></i>
+                    Descargar
+                </button>
+
+                <button class="btn btn-outline-success" onclick="CancelSale()">
+                    <i class="fas fa-file"></i>
+                    Cancelar Factura
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-sm table-bordered" id="tblSaleDetail" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th hidden>IdSalesDetail</th>
+                            <th>#</th>
+                            <th>Código</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.SaleDetail)
+                        {
+                            <tr>
+                                <td class="col-name" hidden>@item.IdSalesDetail</td>
+                                <td class="col-name">@item.LineNume</td>
+                                <td class="col-name">@item.ItemCode</td>
+                                <td class="col-name">@item.ItemName</td>
+                                <td class="col-name">@item.Quantity</td>
+                                <td class="col-name">@item.UnitPrice</td>
+                                <td class="col-name">@item.LineTotal</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="">
+                        <tr>
+                            <td colspan="4"></td>
+                            <td>Subtotal</td>
+                            <td id="tdSubtotal" width="150px" style="text-align:left;">@ViewBag.Sale.SubTotal</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td style=""><b>IVA</b></td>
+                            <td id="IVA" style="text-align:left;">@ViewBag.Sale.IVA</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td>Percepción</td>
+                            <td id="Percepcion" style="text-align:left;">@ViewBag.Sale.Perception</td>
+                        </tr>
+                        <tr style="font-weight: bold;">
+                            <td colspan="4"></td>
+                            <td>Total</td>
+                            <td id="Total" style="text-align:left;">@ViewBag.Sale.DocTotal</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<div hidden>
+    <input class="form-control" id="FlgNew" readonly value="N" />
+</div>
+
+<!-- Ventana modal Nuevo Articulo -->
+<div class="modal fade" id="modalAddItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody" style="font-size:small;">
+                <div class="row">
+                    <div class="col-md-6" id="divItems">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-bordered mdl-data-table__cell--non-numeric" id="tblItems" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ItemCode</th>
+                                        <th>ItemName</th>
+                                        <th hidden>UnitPrice</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ItemCode">Código</label>
+                                    <input class="form-control" id="ItemCode" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="ItemName">Descripción</label>
+                                    <textarea class="form-control" id="ItemName" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Price">Precio</label>
+                                    <input class="form-control" id="Price" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Quantity">Cantidad</label>
+                                    <input class="form-control" id="Quantity" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-info" id="SaveAndNext">Guardar y Agregar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalUpdateItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody" style="font-size:small;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ItemCode">Código</label>
+                                    <input class="form-control" id="ItemCodeUpdate" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="ItemName">Descripción</label>
+                                    <textarea class="form-control" id="ItemNameUpdate" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Price">Precio</label>
+                                    <input class="form-control" id="PriceUpdate" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Quantity">Cantidad</label>
+                                    <input class="form-control" id="QuantityUpdate" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="Edit" data-dismiss="modal">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalDataPrint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalContentPrint" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body d-flex justify-content-center" id="modalBody2">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/EditSalesInvoices")
+}
+
+
+
+
+
+

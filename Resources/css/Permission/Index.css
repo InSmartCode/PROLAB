@@ -1,0 +1,15 @@
+﻿#slctRols {
+    width: 25%
+}
+
+@media (max-width: 1200px) {
+    #slctRols {
+        width: 40%
+    }
+}
+
+@media (max-width: 770px) {
+    #slctRols {
+        width: 100%
+    }
+}

@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "PriceList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Inventario</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Inventory/PriceList">Administración de Listas de Precio</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-cubes"></i>
+        <b>Listas de Precio</b>
+    </h3>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-list"></i>
+                Listas de Precio
+            </div>
+            <div class="card-body table-responsive" style="font-size:small;">
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-outline-success" onclick="NewPriceLists()">
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo
+                    </button>
+
+                    <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditPriceLists()">
+                        <i class="fas fa-edit"></i>
+                        Modificar
+                    </button>
+
+                </div>
+                <br />
+                    <table class="table table-bordered table-sm" id="tblPriceLists" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.PriceList)
+                            {
+                                <tr>
+                                    <td>@item.IdPriceList</td>
+                                    <td>@item.ListName</td>
+                                    <td>@item.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+            </div>
+            <div class="card-footer small text-muted">
+                Actualizado @DateTime.Now
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-list"></i>
+                Detalle de la Lista de Precio
+            </div>
+            <div class="card-body" style="font-size:small;">
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-outline-success" onclick="NewPriceListDetail()">
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo Detalle
+                    </button>
+
+                    <button class="btn btn-outline-warning" disabled id="btnEditDetail" onclick="EditPriceListDeatil()">
+                        <i class="fas fa-edit"></i>
+                        Modificar Detalle
+                    </button>
+
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="tblPriceListDetail" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th hidden>Lista de Precio</th>
+                                <th>Articulo</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">
+                Actualizado @DateTime.Now
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalPriceList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ListName">Descripción</label>
+                                <input type="text" class="form-control" id="ListName" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Price">Precio</label>
+                                <input type="text" class="form-control" id="Price" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalPriceListDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeaderD" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ListNum">No.</label>
+                                <input type="text" class="form-control" id="ListNum" />
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="List">Lista de Precio</label>
+                                <input type="text" class="form-control" id="List" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ItemCode">Articulo</label>
+                                <select class="form-control" id="ItemCode">
+                                    <option value="">Selecione..</option>
+                                    @foreach (var item in ViewBag.Items)
+                                    { 
+                                        <option value="@item.ItemCode">@item.ItemCode - @item.ItemName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Dscription">Descripción</label>
+                                <input type="text" class="form-control" id="Dscription" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PriceDetail">Precio</label>
+                                <input type="text" class="form-control" id="PriceDetail" />
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="SaveDetail">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="UpdateDetail">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/PriceList")
+}

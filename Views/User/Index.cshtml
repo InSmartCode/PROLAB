@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/Content/User")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/User/Index">Usuarios</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Usuarios</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-end">
+        <div>
+            <button class="btn btn-outline-success" onclick="NewUser()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+            <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditUser()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+            <button class="btn btn-outline-danger" disabled id="btnDelete" onclick="DeleteUser()">
+                <i class="fas fa-user-minus"></i>
+                Eliminar
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblUsers" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>País</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Users)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>
+                                @item.Role
+                            </td>
+                            <td>
+                                @item.Country
+                            </td>
+                            <td>
+                                @if (@item.Status == "A")
+                                {
+                                    <text>Activo</text>
+                                }
+                                else if (@item.Status == "I")
+                                {
+                                    <text>Inactivo</text>
+                                }
+                                else
+                                {
+                                    <text>No Asignado</text>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/User")
+}

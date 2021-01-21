@@ -1,0 +1,16 @@
+﻿body {
+    background-image: url("../../img/dentistrywallpaper.jpg");
+    background-position: center top ;    
+    background-size: cover;
+    background-repeat: inherit;
+}
+
+#inputUser:focus {
+    border-color: #f89d64;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #f89d64;
+}
+
+#inputPassword:focus {
+    border-color: #f89d64;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem #f89d64;
+}

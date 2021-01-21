@@ -1,0 +1,63 @@
+﻿@model CLINIC.Models.tbl_Menu
+
+@{
+    ViewBag.Title = "Modificar Menú";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="card text-center">
+        <div class="card-body">
+            @using (Html.BeginForm("EditMenu", "Menu", FormMethod.Post, new { @class = "form", @id = "frmModifyMenu" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Nombre</label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "Name", @type = "text", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Url">Url</label>
+                            @Html.TextBoxFor(m => m.MenuUrl, new { @class = "form-control", @id = "Url", @type = "text", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Icon">Icono</label>
+                            @Html.TextBoxFor(m => m.MenuIcon, new { @class = "form-control", @id = "Icon", @type = "text" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Order">Orden</label>
+                            @Html.TextBoxFor(m => m.OrderNumber, new { @id = "Order", @class = "form-control", @type = "number" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Father">Menú padre</label>
+                            @Html.DropDownListFor(m => m.IdParentMenu, new SelectList(ViewBag.Menus, "Id", "Name"), "Menú Padre", new { @id = "Father", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="center-align">
+                            <button type="submit" class="btn btn-block btn-outline-success">Modificar Menú</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer text-danger">
+            <p id="Message">@Html.ValidationSummary(true, "", new { @class = "text-title" })</p>
+        </div>
+    </div>
+</div>

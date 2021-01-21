@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Rates/Index">Tarifas</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-list"></i>
+        <b>Tarifas</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-list"></i>
+        Tarifas
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="NewRate()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+
+            <button class="btn btn-warning" disabled id="btnEdit" onclick="EditRate()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblRates" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th hidden>Id</th>
+                        <th>Descripción</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Rates)
+                    {
+                        <tr>
+                            <td>@item.IdRate</td>
+                            <td hidden>@item.IdTypeConsultation</td>
+                            <td>@item.Dscription</td>
+                            <td>@item.Rate</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalRate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="IdTypeConsultation">Tipo de Consulta</label>
+                                <select class="form-control" id="IdTypeConsultation">
+                                    <option value="">Selecione..</option>
+                                    @foreach (var item in ViewBag.TypeConsultation)
+                                    {
+                                        <option value="@item.IdTypeConsultation">@item.Dscription</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Dscription">Descipción</label>
+                                <input class="form-control" id="Dscription" type="text"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Rate">Valor</label>
+                                <input class="form-control" id="Rate" type="number"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Rates")
+}
+
+
+
+

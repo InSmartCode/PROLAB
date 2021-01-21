@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "PayRolls";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Planilla</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Employes/Index">Planillas</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Planillas</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-money-bill"></i>
+        Planillas
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <div class="col-md-2">
+                <button class="btn btn-info" disabled id="btnPrintPayment" onclick="PrintPayment()">
+                    <i class="fas fa-print"></i>
+                    Imprimir
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" id="btnPrintPaymentAll" onclick="PrintPaymentAll()">
+                    <i class="fas fa-print"></i>
+                    Imprimir Todos
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" id="btnPayRoll" onclick="">
+                    <i class="fas fa-print"></i>
+                    Imprimir Planilla
+                </button>
+            </div>
+            <div class="col-md-2">
+                <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="PayDate" onchange="" readonly>
+                    <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-money-bill"></i>
+                Primera Quincena
+            </div>
+            <div class="card-body">
+              
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="tblPayRolls" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th hidden>BaseSalary</th>
+                                <th hidden>EarnedSalary</th>
+                                <th hidden>Holidays</th>
+                                <th hidden>AFP</th>
+                                <th hidden>ISSS</th>
+                                <th hidden>Rent</th>
+                                <th hidden>OtherDiscounts</th>
+                                <th hidden>DialingDiscount</th>
+                                <th hidden>Bonus</th>
+                                <th hidden>Compensation</th>
+                                <th>Salario Neto</th>
+                                <th>Fecha</th>
+                                <th hidden>PayMonth</th>
+                                <th hidden>NumPay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Payrolls)
+                            {
+                                if (item.NumPay == 1)
+                                {
+                                    <tr>
+                                        <td>@item.IdPayroll</td>
+                                        <td>@item.IdEmploye</td>
+                                        <td>@item.EmployeName</td>
+                                        <td>@item.EmployeLastName</td>
+                                        <td hidden>@item.BaseSalary</td>
+                                        <td hidden>@item.EarnedSalary</td>
+                                        <td hidden>@item.Holidays</td>
+                                        <td hidden>@item.AFP</td>
+                                        <td hidden>@item.ISSS</td>
+                                        <td hidden>@item.Rent</td>
+                                        <td hidden>@item.OtherDiscounts</td>
+                                        <td hidden>@item.DialingDiscount</td>
+                                        <td hidden>@item.Bonus</td>
+                                        <td hidden>@item.Compensation</td>
+                                        <td>@item.NetSalary</td>
+                                        <td>@item.PayDate.ToString("yyyy-MM-dd")</td>
+                                        <td hidden>@item.PayMonth</td>
+                                        <td hidden>@item.NumPay</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-money-bill"></i>
+                Segunda Quincena
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="tblPayRolls2" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th hidden>BaseSalary</th>
+                                <th hidden>EarnedSalary</th>
+                                <th hidden>Holidays</th>
+                                <th hidden>AFP</th>
+                                <th hidden>ISSS</th>
+                                <th hidden>Rent</th>
+                                <th hidden>OtherDiscounts</th>
+                                <th hidden>DialingDiscount</th>
+                                <th hidden>Bonus</th>
+                                <th hidden>Compensation</th>
+                                <th>Salario Neto</th>
+                                <th>Fecha</th>
+                                <th hidden>PayMonth</th>
+                                <th hidden>NumPay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Payrolls)
+                            {
+                                if (item.NumPay == 2)
+                                {
+                                    <tr>
+                                        <td>@item.IdPayroll</td>
+                                        <td>@item.IdEmploye</td>
+                                        <td>@item.EmployeName</td>
+                                        <td>@item.EmployeLastName</td>
+                                        <td hidden>@item.BaseSalary</td>
+                                        <td hidden>@item.EarnedSalary</td>
+                                        <td hidden>@item.Holidays</td>
+                                        <td hidden>@item.AFP</td>
+                                        <td hidden>@item.ISSS</td>
+                                        <td hidden>@item.Rent</td>
+                                        <td hidden>@item.OtherDiscounts</td>
+                                        <td hidden>@item.DialingDiscount</td>
+                                        <td hidden>@item.Bonus</td>
+                                        <td hidden>@item.Compensation</td>
+                                        <td>@item.NetSalary</td>
+                                        <td>@item.PayDate.ToString("yyyy-MM-dd")</td>
+                                        <td hidden>@item.PayMonth</td>
+                                        <td hidden>@item.NumPay</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<div class="modal fade" id="modalDataPrint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalContentPrint" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body d-flex justify-content-center" id="modalBody2">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/PayRolls")
+}

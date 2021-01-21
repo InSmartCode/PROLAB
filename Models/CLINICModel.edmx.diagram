@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eae97f1512bb44a0af71fa2d3ed4add6" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="CLINICModel.tbl_BloodType" Width="1.5" PointX="10.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_ClientProv" Width="1.5" PointX="17.125" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Country" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Doctors" Width="1.5" PointX="8.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_LogPassUsers" Width="1.5" PointX="2.875" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Menu" Width="1.5" PointX="0.625" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Parameters" Width="1.5" PointX="2.875" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Permission" Width="1.5" PointX="2.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_PriceList" Width="1.5" PointX="17" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_PriceListDetail" Width="1.5" PointX="17" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Rates" Width="1.5" PointX="8.875" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Rol" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_SalesDetail" Width="1.5" PointX="23.375" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_TypeConsultation" Width="1.5" PointX="8.625" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Url" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="CLINICModel.FK_tbl_User_tbl_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="CLINICModel.FK_tbl_Permission_tbl_Menu" ManuallyRouted="false" />
+        <AssociationConnector Association="CLINICModel.FK_tbl_User_tbl_Rol" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_LogsUnhandledException" Width="1.875" PointX="0.5" PointY="8.75" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Inventory" Width="1.5" PointX="19" PointY="1.5" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_PurchaseDetail" Width="2.125" PointX="20.75" PointY="1.5" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Purchase" Width="1.75" PointX="21" PointY="5.125" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Sales" Width="1.5" PointX="23.5" PointY="5.25" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_PAYROLL_Advancements" Width="1.5" PointX="7.375" PointY="12.125" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_PAYROLL_Employes" Width="1.5" PointX="9.375" PointY="12.125" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_PAYROLL_Payrolls" Width="1.5" PointX="11.25" PointY="12.125" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_MedicalAppointments" Width="1.5" PointX="10.75" PointY="6.875" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Patients" Width="1.5" PointX="12.375" PointY="1.125" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_MedicalRecord" Width="1.5" PointX="10.375" PointY="1" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_ComentsOrder" Width="1.5" PointX="18.875" PointY="6.125" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

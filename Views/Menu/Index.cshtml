@@ -1,0 +1,107 @@
+﻿@model CLINIC.Models.tbl_Menu
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/Content/Menu")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Menu/Index">Menús</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-folder-minus"></i>
+        Menús
+        <ul class="navbar-nav d-sm-inline-block form-inline mr-auto">
+            <li class="nav-item d-inline">
+                <button class="btn btn-outline-success" onclick="NewMenu()">
+                    <i class="fas fa-user-plus"></i>
+                    Nuevo
+                </button>
+            </li>
+            <li class="nav-item d-inline">
+                <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditMenu()">
+                    <i class="fas fa-edit"></i>
+                    Modificar
+                </button>
+            </li>
+            <li class="nav-item d-inline">
+                <button class="btn btn-outline-danger" disabled id="btnDelete" onclick="DeleteMenu()">
+                    <i class="fas fa-user-minus"></i>
+                    Eliminar
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body"style="font-size:small;">
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered" id="tblMenus" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Url</th>
+                        <th>Icono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Menus)
+                    {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.MenuUrl
+                        </td>
+                        <td>
+                            <i class="@item.MenuIcon"></i>
+                            @item.MenuIcon
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalMenu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Menu")
+}

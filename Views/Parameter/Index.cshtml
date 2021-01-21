@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/Content/Parameter")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Parameter/Index">Parámetros</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-cogs"></i>
+        <b>Parámetros</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-end">
+        <div>
+            <button class="btn btn-outline-success" onclick="NewParameter()">
+                <i class="fas fa-cog"></i>
+                Nuevo
+            </button>
+            <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditParameter()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+        </div>        
+    </div>
+    <div class="card-body">
+        <div class="table-responsive" style="height: 600px; overflow-y: auto;">
+            <table class="table table-bordered table-sm" id="tblParameters" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Parámetro</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Parameters)
+                    {
+                        <tr>
+                            <td>@item.IdParameters</td>
+                            <td>
+                                @item.Parameter
+                            </td>
+                            <td>
+                                @item.ValueOfParameter
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalParameter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Parameter")
+}

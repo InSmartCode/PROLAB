@@ -1,0 +1,51 @@
+﻿@model CLINIC.Models.tbl_User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Resources/css/Login/Login.css" rel="stylesheet" />
+    @Styles.Render("~/Content/bootstrap")
+</head>
+<body>
+    <div class="container">
+        <div class="card mx-auto mt-5" style="max-width: 25rem; margin-top: 25rem; margin-bottom: 25rem; margin-left: 25rem; margin-left: 25rem;">
+            <div class="card-header text-center">
+                <img class="card-img-top" id="logoImage" src="~/Resources/img/dentistry.png" style="max-height: 150px; max-width: 150px;" />
+                <h2 style="color: green;">PROLAB</h2>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "formLogin" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <label for="inputUser">Usuario</label>
+                            @Html.TextBoxFor(m => m.Email, new { @autofocus = "autofocus", @class = "form-control", @id = "inputUser", @type = "email" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <label for="inputPassword">Contraseña</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "inputPassword", @type = "password" })
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                    </div>
+                }
+            </div>
+            <div class="card-footer text-center" id="ErrorMessage">
+                <p>@Html.ValidationSummary(true, "", new { @class = "text-danger text-title" })</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

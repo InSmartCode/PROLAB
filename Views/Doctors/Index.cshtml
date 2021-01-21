@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Doctors/Index">Doctores</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Doctores</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users"></i>
+        Doctores
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="NewDoctor()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+
+            <button class="btn btn-warning" disabled id="btnEdit" onclick="EditDoctor()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblDoctors" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th>Sexo</th>
+                        <th>Origen</th>
+                        <th>Especialidad</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Doctors)
+                    {
+                        <tr>
+                            <td>@item.IdDoctor</td>
+                            <td>@item.DoctorName</td>
+                            <td>@item.Address</td>
+                            <td>@item.Email</td>
+                            <td>@item.Telephone</td>
+                            <td>@item.Sex</td>
+                            <td>@item.Origin</td>
+                            <td>@item.Specialty</td>
+                            <td>@item.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalDoctor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientName">Nombre</label>
+                                <input type="text" class="form-control" id="DoctorName" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Address">Dirección</label>
+                                <input type="text" class="form-control" id="Address" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Telephone">Telefono</label>
+                                <input type="text" class="form-control" id="Telephone" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Email">Correo</label>
+                                <input type="email" class="form-control" id="Email" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Sex">Sexo</label>
+                                <select class="form-control" id="Sex">
+                                    <option value="">Selecione..</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Origin">Origen</label>
+                                <input type="text" class="form-control" id="Origin" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Specialty">Especialidad</label>
+                                <input class="form-control" id="Specialty" />
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Status">Estado</label>
+                                <select class="form-control" id="Status">
+                                    <option value="">Selecione..</option>
+                                    <option value="A">ACTIVO</option>
+                                    <option value="I">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Doctors")
+}
+
+
+
+

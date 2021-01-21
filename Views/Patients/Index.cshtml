@@ -1,0 +1,373 @@
+﻿@using System.Globalization;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Patients/Index">Pacientes</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Pacientes</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header" >
+        <i class="fas fa-users"></i>
+        Pacientes
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="NewPatient()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+
+            <button class="btn btn-warning" disabled id="btnEdit" onclick="EditPatient()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+
+            <button class="btn btn-info" disabled id="btnDownloadFicha" onclick="DownloadFicha()">
+                <i class="fas fa-download"></i>
+                Descargar Ficha
+            </button>
+
+            <button class="btn btn-primary" disabled id="btnAddMR" onclick="AddMedicalRecord()">
+                <i class="fas fa-plus"></i>
+                Agregar Procedimiento Ambulatorio
+            </button>
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblPatients" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Telefono</th>
+                        <th>Correo</th>
+                        <th>Sexo</th>
+                        <th>Fecha/Nacimiento</th>
+                        <th hidden>Edad</th>
+                        <th hidden>Tipode Sangre</th>
+                        <th hidden>VIH</th>
+                        <th hidden>Peso</th>
+                        <th hidden>Alergias</th>
+                        <th hidden>Medicamento Actual</th>
+                        <th hidden>Enfermedad del Paciente</th>
+                        <th hidden>OtherConditions</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Patients)
+                    {
+                        <tr>
+                            <td>@item.IdPatient</td>
+                            <td>@item.PatientName</td>
+                            <td>@item.Address</td>
+                            <td>@item.Telephone</td>
+                            <td>@item.Email</td>
+                            <td>@item.Sex</td>
+                            <td>@item.DateOfBirth.ToString("yyyy-MM-dd", new CultureInfo("es-ES"))</td>
+                            <td hidden>@item.Age</td>
+                            <td hidden>@item.IdBloodType</td>
+                            <td hidden>@item.VIH</td>
+                            <td hidden>@item.Weight</td>
+                            <td hidden>@item.Allergies</td>
+                            <td hidden>@item.CurrentMedications</td>
+                            <td hidden>@item.PatientDisease</td>
+                            <td hidden>@item.OtherConditions</td>
+                            <td>@item.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalPatient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientName">Nombre</label>
+                                <input type="text" class="form-control" id="PatientName" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Address">Dirección</label>
+                                <input type="text" class="form-control" id="Address" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Telephone">Telefono</label>
+                                <input type="text" class="form-control" id="Telephone" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Email">Correo</label>
+                                <input type="email" class="form-control" id="Email" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Sex">Sexo</label>
+                                <select class="form-control" id="Sex">
+                                    <option value="">Selecione..</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Weight">Peso</label>
+                                <input type="number" class="form-control" id="Weight" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="IdBloodType">Tipo de Sangre</label>
+                                <select class="form-control" id="IdBloodType">
+                                    <option value="">Selecione..</option>
+                                    @foreach (var item in ViewBag.BloodTypes)
+                                    {
+                                        <option value="@item.IdBloodType">@item.BloodType</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="VIH">VIH</label>
+                                <select class="form-control" id="VIH">
+                                    <option value="">Selecione..</option>
+                                    <option value="S">SI</option>
+                                    <option value="N">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"> 
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="DateIn">Fecha de Nacimiento</label>
+                                <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="padding-top: 3%;">
+                                    <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="DateOfBirth" onchange="" readonly>
+                                    <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                                </div>   
+                            </div>                                                             
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Weight">Edad</label>
+                                <input type="number" class="form-control" id="Age" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Allergies">Alergias</label>
+                                <textarea class="form-control" id="Allergies"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="CurrentMedications">Tratamiento o Medicamento Actual</label>
+                                <textarea class="form-control" id="CurrentMedications"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientDisease">Enfermedades o Alteración</label>
+                                <textarea class="form-control" id="PatientDisease"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientDisease">Otras Observaciones</label>
+                                <textarea class="form-control" id="OtherConditions"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Status">Estado</label>
+                                <select class="form-control" id="Status">
+                                    <option value="">Selecione..</option>
+                                    <option value="A">ACTIVO</option>
+                                    <option value="I">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalMedicalRecord" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeaderMD" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody" style="font-size:small;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12" hidden>
+                            <div class="form-group">
+                                <label for="PatientName">Dientes</label>
+                                <input type="text" class="form-control" id="IdMedicalRecord" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientName">Dientes</label>
+                                <input type="text" class="form-control" id="Teeth" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="DateIn">Fecha del Procedimiento</label>
+                                <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="padding-top: 3%;">
+                                    <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="DateProcedure" onchange="" readonly>
+                                    <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="IdBloodType">Doctor</label>
+                                <select class="form-control" id="IdDoctor">
+                                    <option value="0">Selecione..</option>
+                                    @foreach (var item in ViewBag.Doctors)
+                                    {
+                                        <option value="@item.IdDoctor">@item.DoctorName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientDisease">Procedimiento Realizado</label>
+                                <textarea class="form-control" id="ClinicalProcedure"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PatientDisease">Tratamiento Preescrito</label>
+                                <textarea class="form-control" id="PrescribedTreatment"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Weight">Pago/Abono</label>
+                                <input type="number" class="form-control" id="Payment" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-sm" id="tblMedicalRecordDetail" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th hidden>IdPatient</th>
+                                    <th hidden>IdDoctor</th>
+                                    <th>Dientes</th>
+                                    <th>Procedimento Realizado</th>
+                                    <th>Tratamiento Preescrito</th>
+                                    <th>Fecha</th>
+                                    <th>Abono</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="DownloadMedicalRecod" onclick="DownloadMedicalRecod();"><i class="fas fa-download">Descargar</i></button>
+                <button type="button" class="btn btn-danger" id="Save2" onclick="DeleteMedicalRercord();">Eliminar</button>
+                <button type="button" class="btn btn-warning" id="Upd" onclick="UpdateMedicalRercord();">Modificar</button>
+                <button type="button" class="btn btn-success" id="Save2" onclick="SaveMedicalRercord();">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalDataPrint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalContentPrint" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body d-flex justify-content-center" id="modalBody2">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+        @Scripts.Render("~/Scripts/Patients")
+}

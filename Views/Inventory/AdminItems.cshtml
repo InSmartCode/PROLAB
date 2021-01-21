@@ -1,0 +1,385 @@
+﻿
+@{
+    ViewBag.Title = "AdminItems";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Inventario</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Doctors/Index">Administración de Inventario</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-cubes"></i>
+        <b>Administración de Inventario</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-list"></i>
+        Administración de Inventario
+    </div>
+    <div class="card-body" style="font-size:small;">
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-outline-success" onclick="NewItem()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+
+            <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditItem()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+
+            <button class="btn btn-outline-info" id="ImportData" onclick="ImportData()">
+                <i class="fas fa-upload"></i>
+                Importar Datos
+            </button>
+
+            <button class="btn btn-outline-primary" id="DownInventory" onclick="DownInventory()">
+                <i class="fas fa-arrow-alt-circle-down"></i>
+                Descarga de Inventario
+            </button>
+
+            <button class="btn btn-outline-info" id="UpInventory" onclick="UpInventory()">
+                <i class="fas fa-arrow-alt-circle-up"></i>
+                Carga de Inventario
+            </button>
+
+            <button class="btn btn-outline-info" id="UpInventory" onclick="DownloadInventory()">
+                <i class="fas fa-file-download"></i>
+                Descargar PDF
+            </button>
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblItems" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripcion</th>
+                        <th>Categoría</th>
+                        <th>Costo</th>
+                        <th hidden>Paquetes</th>
+                        <th hidden>Unidades</th>
+                        <th>Existencia/Paquetes</th>
+                        <th>Existencia/Unidades</th>
+                        <th hidden>Peso/Unidades</th>
+                        <th hidden>Peso/Paquetes</th>
+                        <th>Tipo de Producto</th>
+                        <th>Bodega</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Items)
+                    {
+                    <tr>
+                        <td>@item.ItemCode</td>
+                        <td>@item.ItemName</td>
+                        <td>@item.Brand</td>
+                        <td>@item.Cost</td>
+                        <td hidden>@item.Package</td>
+                        <td hidden>@item.Units</td>
+                        <td>@item.PackageOnHand</td>
+                        <td>@item.UnitsOnHand</td>
+                        <td hidden>@item.UnitWeight</td>
+                        <td hidden>@item.PackageWeight</td>
+                        @if (item.ItemType == "1")
+                        {
+                            <td>Prducto Termiano</td>
+                        }
+                        else if (item.ItemType == "2")
+                        {
+                            <td>Prducto de Prueba</td>
+                        }
+                        else if (item.ItemType == "3")
+                        {
+                            <td>Materia Prima</td>
+                        }
+
+                        @if (item.WarehouseCode == 1)
+                        {
+                            <td>Almacen 1</td>
+                        }
+                        else if (item.WarehouseCode == 2)
+                        {
+                            <td>Almacen 2</td>
+                        }
+                        else if (item.WarehouseCode == 3)
+                        {
+                            <td>Almacen 3</td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ItemCode">Código</label>
+                                <input type="text" class="form-control" id="ItemCode" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ItemName">Descipción</label>
+                                <input type="text" class="form-control" id="ItemName" />
+                            </div>
+                        </div> 
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Brand">Categoría</label>
+                                <select class="form-control" id="Brand">
+                                    <option value="">Selecione..</option>
+                                    <option value="AC">Acrilico</option>
+                                    <option value="ES">Esmalte</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Package">Paquete</label>
+                                <input type="number" class="form-control" id="Package" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Units">Unidades</label>
+                                <input type="number" class="form-control" id="Units" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Cost">Costo</label>
+                                <input type="number" class="form-control" id="Cost" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PackageOnHand">Paquetes en Existecia</label>
+                                <input type="number" class="form-control" id="PackageOnHand" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="UnitsOnHand">Unidades en Existecia</label>
+                                <input type="number" class="form-control" id="UnitsOnHand" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="UnitWeight">Peso de las Unidades</label>
+                                <input type="number" class="form-control" id="UnitWeight" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="PackageWeight">Peso de los Paquetes</label>
+                                <input type="number" class="form-control" id="PackageWeight" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ItemType">Tipo de Artículo</label>
+                                <select class="form-control" id="ItemType">
+                                    <option value="">Selecione..</option>
+                                    <option value="1">Producto Terminado</option>
+                                    <option value="2">Producto de Prueba</option>
+                                    <option value="3">Materia Prima</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="WarehouseCode">Bodega</label>
+                                <select class="form-control" id="WarehouseCode">
+                                    <option value="">Selecione..</option>
+                                    <option value="1">Almacen 1</option>
+                                    <option value="2">Almacen 2</option>
+                                    <option value="3">Almacen 3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalImportData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @using (Html.BeginForm("ImportData", "Inventory", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmImportData" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary()
+
+                                    <div class="form-group form-control">
+                                        <input type="file" name="file" />
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button class="btn btn-success btn-block" id="btnSubmitImport" type="submit">Cargar presupuesto</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>*@
+        </div>
+    </div>
+
+<div class="modal fade" id="modalDownData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @using (Html.BeginForm("DownInventory", "Inventory", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmDownData" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary()
+
+                                <div class="form-group form-control">
+                                    <input type="file" name="fileDown" />
+                                </div>
+
+                                <div class="form-actions">
+                                    <button class="btn btn-success btn-block" id="btnSubmitDown" type="submit">Cargar presupuesto</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>*@
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalUpData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @using (Html.BeginForm("UpInventory", "Inventory", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUpData" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary()
+
+                                <div class="form-group form-control">
+                                    <input type="file" name="fileUp" />
+                                </div>
+
+                                <div class="form-actions">
+                                    <button class="btn btn-success btn-block" id="btnSubmitUp" type="submit">Cargar presupuesto</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>*@
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalDataPrint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalContentPrint" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body d-flex justify-content-center" id="modalBody2">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/AdminItems")
+}
+
+

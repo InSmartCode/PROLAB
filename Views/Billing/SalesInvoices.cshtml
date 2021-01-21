@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "SalesInvoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    @*<link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />*@
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Billing/SalesInvoices">Facturas de Venta</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-file-invoice"></i>
+        <b>Facturas de Venta</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-alt"></i>
+        Ventas
+    </div>
+    <div class="card-body" style="font-size:small;">
+
+        <br />
+        <div class="row d-flex justify-content-lg-end">
+            <div class="col-md-2">
+                <button class="btn btn-info" onclick="ShowDetailSale()">
+                    <i class="fas fa-eye"></i>
+                    Ver Detalle
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-warning" onclick="EditSale()">
+                    <i class="fas fa-eye"></i>
+                    Editar Factura
+                </button>
+            </div>
+            <div class="col-md-2">
+                <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" >
+                    <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="DateIn" onchange="UpdateSales()" readonly>
+                    <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-sm table-bordered" id="tblSales" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th hidden>IdSales</th>
+                            <th>CodCliente</th>
+                            <th>Nombre</th>
+                            <th>Factura</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.SalesInvoices)
+                        {
+                            <tr>
+                                <td class="col-name" hidden>@item.IdSale</td>
+                                <td class="col-name">@item.IdClient</td>
+                                <td class="col-name">@item.ClienteProvName</td>
+                                <td class="col-name">@item.NumAtCard</td>
+                                <td class="col-name">@item.DocDate.ToString("dd/MM/yyyy")</td>
+                                <td class="col-name">@item.DocTotal</td>
+                                <td class="col-name">@item.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal Nuevo Articulo -->
+<div class="modal fade" id="modalDetailSale" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody" style="font-size:small;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <img src="~/Resources/img/invoice2.svg" style="width:100px; height:100px;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="IdSale" class="font-weight-bold">#.:</label>
+                                    <label id="IdSale">1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="IdClient" class="font-weight-bold">Cód. Cliente:</label>
+                                    <label id="IdClient">1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ClienteProvName" class="font-weight-bold">Cliente:</label>
+                                    <label id="ClienteProvName">Dra. Claudia Campos</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="NumAtCard" class="font-weight-bold">Factura:</label>
+                                    <label id="NumAtCard">1231323213</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DocDate" class="font-weight-bold">Fecha:</label>
+                                    <label id="DocDate">12-03-1192</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Status" class="font-weight-bold">Estado:</label>
+                                    <label id="Status">Cerrada</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="SubTotal" class="font-weight-bold">Sub Total:</label>
+                                    <label id="SubTotal">$ 123.1200</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="IVA" class="font-weight-bold">IVA:</label>
+                                    <label id="IVA">$ 123.1200</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DocTotal" class="font-weight-bold">TOTAL:</label>
+                                    <label id="DocTotal">$ 123.1200</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-sm" id="tblSaleDetail" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/SalesInvoices")
+}
+
+
+
+
+
+

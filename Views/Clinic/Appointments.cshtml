@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "Appointments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Clinic</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Clinic/Appointments">Citas</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-list-ul"></i>
+        <b>Citas Medicas</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-list-alt"></i>
+        Citas
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="NewAppointment()">
+                <i class="fas fa-plus"></i>
+                Nueva
+            </button>
+            
+            <button class="btn btn-warning"  disabled id="btnEdit" onclick="EditAppointment()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+
+            <button class="btn btn-danger" disabled id="btnDelete" onclick="DeleteAppointment()">
+                <i class="fas fa-trash"></i>
+                Eliminar
+            </button>
+           
+
+
+            <div class="col-md-2">
+                <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="Date" onchange="" readonly>
+                    <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblAppointments" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th hidden>IdPatient</th>
+                        <th>Paciente</th>
+                        <th hidden>IdDoctor</th>
+                        <th>Doctor</th>
+                        <th hidden>IdTypeConsultation</th>
+                        <th>Tipo Consulta</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th>Pagada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.MedicalAppointment)
+                    {
+                            <tr>
+                                <td>@item.IdMedicalAppointment</td>
+                                <td hidden>@item.IdPatient</td>
+                                <td>@item.PatientName</td>
+                                <td hidden>@item.IdDoctor</td>
+                                <td>@item.DoctorName</td>
+                                <td hidden>@item.IdTypeConsultation</td>
+                                <td>@item.Dscription</td>
+                                <td>@item.ConsultationDate.ToString("yyyy-MM-dd")</td>
+                                <td>@item.ConsultationTime</td>
+                                <td>@item.Status</td>
+                                <td>@item.Paid</td>
+                            </tr>                        
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                        <div class="col-md-12" hidden>
+                            <div class="form-group">
+                                <label for="IdMedicalAppointment">IdMedicalAppointment</label>
+                                <input type="text" class="form-control" id="IdMedicalAppointment" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="IdPatient">Paciente</label>
+                                <select class="form-control" id="IdPatient">
+                                    <option value="">Selecione..</option>
+                                    @foreach (var item in ViewBag.Patients)
+                                    {
+                                        <option value="@item.IdPatient">@item.PatientName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="IdDoctor">Doctor</label>
+                                <select class="form-control" id="IdDoctor">
+                                    <option value="">Selecione..</option>
+                                    @foreach (var item in ViewBag.Doctors)
+                                    {
+                                        <option value="@item.IdDoctor">@item.DoctorName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="IdTypeConsultation">Tipo de Consulta</label>
+                                <select class="form-control" id="IdTypeConsultation">
+                                    <option value="">Selecione..</option>
+                                    @foreach (var item in ViewBag.TypeConsultation)
+                                    {
+                                        <option value="@item.IdTypeConsultation">@item.Dscription</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="IdPatient">Fecha</label>
+                            <div id="DateInConsultationDate" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="ConsultationDate" onchange="" >
+                                <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DateInTime">Hora</label>
+                            <div class='input-group date'>
+                                <input type='text' class="form-control" id='datetimepicker4' />
+                                <div class="input-group-text"><i class="fas fa-clock"></i></div>
+
+                            </div>
+                        </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="Status">Estado</label>
+                            <select class="form-control" id="Status">
+                                <option value="">Selecione..</option>
+                                <option value="P">PENDIENTE</option>
+                                <option value="A">ACTIVA</option>
+                                <option value="R">REALIZADA</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="Paid">Pagada</label>
+                            <select class="form-control" id="Paid">
+                                <option value="">Selecione..</option>
+                                <option value="S">SI</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Appointments")
+}
