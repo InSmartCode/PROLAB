@@ -773,3 +773,27 @@ function ItemsList(PurchaseDetail, Purchase) {
 
     $("#FlgNew").val("N");
 }
+
+
+
+function SavePurchase() {
+
+    $.ajax({
+        type: "POST",
+        traditional: true,
+        url: "/Billing/SavePurchase/",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ NumAtCard: $("#NumAtCard").val() }),
+        success: function (result) {
+
+            if (result.Res == true) {
+                alertify.success('Realizado');
+            } else {
+                alertify.error('Ha ocurrido un error ');
+            }
+        },
+        error: function () {
+            alertify.error('Ha ocurrido un error al ingresar el producto');
+        }
+    });
+}
