@@ -421,8 +421,8 @@ $('#QuantityUpdate').on('keyup', function (e) {
 
 
 $('#Price').on('keyup', function (e) {
-
     var numero = $('#Price').val();
+    var prctn = numero % 1;
     if (e.which == 13) {
         if (numero == '') {
             alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
@@ -444,11 +444,11 @@ $('#Price').on('keyup', function (e) {
         } else if (numero % 1 == 0) {
             AddItem('Add');
         } else {
-            alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
-            $('#SaveAndNext').prop('disabled', true);
-            $('#Save').prop('disabled', true);
-            $('#Edit').prop('disabled', true);
-            $("#Price").focus();
+            //alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
+            //$('#SaveAndNext').prop('disabled', true);
+            //$('#Save').prop('disabled', true);
+            //$('#Edit').prop('disabled', true);
+            //$("#Price").focus();
             return;
         }
     } else {
@@ -476,11 +476,11 @@ $('#Price').on('keyup', function (e) {
             $("#Price").focus();
             return;
         } else {
-            alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
-            $('#SaveAndNext').prop('disabled', true);
-            $('#Save').prop('disabled', true);
-            $('#Edit').prop('disabled', true);
-            $("#Price").focus();
+            //alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
+            //$('#SaveAndNext').prop('disabled', true);
+            //$('#Save').prop('disabled', true);
+            //$('#Edit').prop('disabled', true);
+            //$("#Price").focus();
             return;
         }
     }
@@ -512,11 +512,11 @@ $('#PriceUpdate').on('keyup', function (e) {
         } else if (numero % 1 == 0) {
             UpdateItem('Add');
         } else {
-            alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
-            $('#SaveAndNext').prop('disabled', true);
-            $('#Save').prop('disabled', true);
-            $('#Edit').prop('disabled', true);
-            $("#PriceUpdate").focus();
+            //alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
+            //$('#SaveAndNext').prop('disabled', true);
+            //$('#Save').prop('disabled', true);
+            //$('#Edit').prop('disabled', true);
+            //$("#PriceUpdate").focus();
             return;
         }
     } else {
@@ -544,11 +544,11 @@ $('#PriceUpdate').on('keyup', function (e) {
             $("#PriceUpdate").focus();
             return;
         } else {
-            alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
-            $('#SaveAndNext').prop('disabled', true);
-            $('#Save').prop('disabled', true);
-            $('#Edit').prop('disabled', true);
-            $("#PriceUpdate").focus();
+            //alertify.error("Debe digitar un Precio valido para ingresar un nuevo producto.");
+            //$('#SaveAndNext').prop('disabled', true);
+            //$('#Save').prop('disabled', true);
+            //$('#Edit').prop('disabled', true);
+            //$("#PriceUpdate").focus();
             return;
         }
     }
@@ -627,6 +627,11 @@ function AddItem() {
         UnitPrice: $("#Price").val()
     };
 
+    if ($("#NumAtCard").val()=="") {
+        alertify.error("Debe digitar correlativo de la factrura valida para ingresar un nuevo producto.");
+        return;
+    }
+
     if (numero == '') {
         alertify.error("Debe digitar una cantidad valida para ingresar un nuevo producto.");
 
@@ -698,6 +703,11 @@ function UpdateItem() {
         Quantity: $("#QuantityUpdate").val(),
         UnitPrice: $("#PriceUpdate").val()
     };
+
+    if ($("#NumAtCard").val() == "") {
+        alertify.error("Debe digitar correlativo de la factrura valida para ingresar un nuevo producto.");
+        return;
+    }
 
     if (numero == '') {
         alertify.error("Debe digitar una cantidad valida para ingresar un nuevo producto.");
