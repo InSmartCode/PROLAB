@@ -772,7 +772,7 @@ function ItemsList(PurchaseDetail, Purchase) {
 
         $("#tdSubtotal").html(formatNumber.new(Purchase.SubTotal.toFixed(2), "$ "));
         $("#IVA").html(formatNumber.new(Purchase.IVA.toFixed(2), "$ "));
-        $("#Percepcion").html(formatNumber.new(Purchase.Perception.toFixed(2), "$ "));
+        //$("#Percepcion").html(formatNumber.new(Purchase.Perception.toFixed(2), "$ "));
         $("#Total").html(formatNumber.new(Purchase.DocTotal.toFixed(2), "$ "));
 
     } else {
