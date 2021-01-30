@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Advancements";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/js/plugins/bootstrap-datetimerpicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Sistema</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/PayRoll/Advancements">Planilla</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-money-bill"></i>
+        <b>Descuentos o Adelantos</b>
+    </h3>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-money-bill"></i>
+        Descuentos o Adelantos
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="NewAdvancement()">
+                <i class="fas fa-user-plus"></i>
+                Nuevo
+            </button>
+
+            <button class="btn btn-warning" disabled id="btnEdit" onclick="EditAdvancement()">
+                <i class="fas fa-edit"></i>
+                Modificar
+            </button>
+
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" id="tblAdvancements" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Cod.</th>
+                        <th>Nombre</th>
+                        <th>Concepto</th>
+                        <th>Adelanto/Prestamo</th>
+                        <th>Reembolso</th>
+                        <th>Pendiente</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Advancements)
+                    {
+                        <tr>
+                            <td>@item.IdAdvancements</td>
+                            <td>@item.IdEmploye</td>
+                            <td>@item.EmployeName</td>
+                            <td>@item.Concept</td>
+                            <td>@item.Advancements</td>
+                            <td>@item.Refund</td>
+                            <td>@item.Pending</td>
+                            <td>@item.DateAdvancements.ToString("yyyy-MM-dd")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">
+        Actualizado @DateTime.Now
+    </div>
+</div>
+
+<!-- Salto para que quede ordenado con el footer -->
+<br />
+
+<!-- Ventana modal para mantenimiento de los usuarios -->
+<div class="modal fade" id="modalAdvancement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="FlgBonus">Empleado</label>
+                            <select class="form-control" id="IdEmploye">
+                                <option value="">Selecione..</option>
+                                @foreach (var item in ViewBag.Employes)
+                                {
+                                    <option value="@item.IdEmploye">@item.EmployeName @item.EmployeLastName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Concept">Concepto</label>
+                            <input type="text" class="form-control" id="Concept" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Advancements">Adelanto/Prestamo</label>
+                            <input type="text" class="form-control" id="Advancements" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Refund">Reembolso</label>
+                            <input type="text" class="form-control" id="Refund" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Pending">Pendiente</label>
+                            <input type="text" class="form-control" id="Pending" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DateIn">Fecha Contratación</label>
+                        <div id="DateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input class="form-control" size="16" type="text" value="@ViewBag.Fecha" id="DateAdvancements" onchange="" readonly>
+                            <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Advancements")
+}
+
+
+
+
+
+

@@ -38,6 +38,12 @@
     <div class="card-body">
         <div class="d-flex justify-content-end">
             <div class="col-md-2">
+                <button class="btn btn-warning" disabled id="btnChangeDate" >
+                    <i class="fas fa-print"></i>
+                    Modificar 
+                </button>
+            </div>
+            <div class="col-md-2">
                 <button class="btn btn-info" disabled id="btnPrintPayment" onclick="PrintPayment()">
                     <i class="fas fa-print"></i>
                     Imprimir
@@ -207,6 +213,28 @@
                 <h4 id="modalContentPrint" class="text-center" style="margin-bottom: 0px;"></h4>
             </div>
             <div class="modal-body d-flex justify-content-center" id="modalBody2">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalUpdatePayRoll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalContentUpdatePayRoll" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body d-flex justify-content-center" id="">
+                <div class="col-md-12">
+                    <label for="NewDateIn">Fecha Contratación</label>
+                    <div id="NewDateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="@ViewBag.NewFecha" id="NewPayDate" onchange="" readonly>
+                        <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
             </div>
         </div>
     </div>

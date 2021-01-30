@@ -696,10 +696,10 @@ function ItemsList(SaleDetail, Sale){
     CallBack2();
 
 
-    $("#tdSubtotal").html(formatNumber.new(Sale.SubTotal,"$ "));
-    $("#IVA").html(formatNumber.new(Sale.IVA, "$ "));
-    $("#Percepcion").html(formatNumber.new(Sale.Perception, "$ "));
-    $("#Total").html(formatNumber.new(Sale.DocTotal, "$ "));
+    $("#tdSubtotal").html(formatNumber.new(Sale.SubTotall.toFixed(2), "$ "));
+    $("#IVA").html(formatNumber.new(Sale.IVAl.toFixed(2), "$ "));
+    $("#Percepcion").html(formatNumber.new(Sale.Perceptionl.toFixed(2), "$ "));
+    $("#Total").html(formatNumber.new(Sale.DocTotall.toFixed(2), "$ "));
 
     
     $("#FlgNew").val("N");

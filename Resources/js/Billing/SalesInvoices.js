@@ -149,13 +149,13 @@ function ShowDetailSale() {
                     var fecha = moment(resultado.Sale.DocDate).format('DD/MM/YYYY');
                     $('#IdSale').text(resultado.Sale.IdSale);
                     $('#IdClient').text(resultado.Sale.IdClient);
-                    $('#ClienteProvName').text(resultado.Sale.ClienteProvName);
+                    $('#ClienteProvName').text(resultado.Client.ClienteProvName);
                     $('#NumAtCard').text(resultado.Sale.NumAtCard);
                     $('#DocDate').text(fecha);
                     $('#Status').text(resultado.Sale.Status);
-                    $('#SubTotal').text(formatNumber.new(resultado.Sale.SubTotal, "$ "));
-                    $('#IVA').text(formatNumber.new(resultado.Sale.IVA, "$ "));
-                    $('#DocTotal').text(formatNumber.new(resultado.Sale.DocTotal, "$ "));
+                    $('#SubTotal').text(formatNumber.new(resultado.Sale.SubTotal.toFixed(2), "$ "));
+                    $('#IVA').text(formatNumber.new(resultado.Sale.IVA.toFixed(2), "$ "));
+                    $('#DocTotal').text(formatNumber.new(resultado.Sale.DocTotal.toFixed(2), "$ "));
                 } else {
                     alertify.error('Ha ocurrido un error al ingresar el producto');
                 }

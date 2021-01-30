@@ -149,13 +149,13 @@ function ShowDetailPurchase() {
                     var fecha = moment(resultado.Purchase.DocDate).format('DD/MM/YYYY');
                     $('#IdPurchase').text(resultado.Purchase.IdPurchase);
                     $('#IdProvider').text(resultado.Purchase.IdProvider);
-                    $('#ClienteProvName').text(resultado.Purchase.ClienteProvName);
+                    $('#ClienteProvName').text(resultado.Provider.ClienteProvName);
                     $('#NumAtCard').text(resultado.Purchase.NumAtCard);
                     $('#DocDate').text(fecha);
                     $('#Status').text(resultado.Purchase.Status);
-                    $('#SubTotal').text(formatNumber.new(resultado.Purchase.SubTotal, "$ "));
-                    $('#IVA').text(formatNumber.new(resultado.Purchase.IVA, "$ "));
-                    $('#DocTotal').text(formatNumber.new(resultado.Purchase.DocTotal, "$ "));
+                    $('#SubTotal').text(formatNumber.new(resultado.Purchase.SubTotal.toFixed(2), "$ "));
+                    $('#IVA').text(formatNumber.new(resultado.Purchase.IVA.toFixed(2), "$ "));
+                    $('#DocTotal').text(formatNumber.new(resultado.Purchase.DocTotal.toFixed(2), "$ "));
                 } else {
                     alertify.error('Ha ocurrido un error al ingresar el producto');
                 }
@@ -195,7 +195,7 @@ function UpdatePurchase() {
                                                                 + item.ClienteProvName + "</td><td>"
                                                                 + item.NumAtCard + "</td><td>"
                                                                 + fecha + "</td><td>"
-                                                                + item.DocTotal + "</td><td>"
+                                                                + item.DocTotal.toFixed(2) + "</td><td>"
                                                                 + item.Status + "</td></tr>");
                 });
                 CallBack();

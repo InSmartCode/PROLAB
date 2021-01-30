@@ -769,10 +769,12 @@ function ItemsList(PurchaseDetail, Purchase) {
     CallBack2();
 
     if (Purchase != null) {
-        $("#tdSubtotal").html(formatNumber.new(Purchase.SubTotal, "$ "));
-        $("#IVA").html(formatNumber.new(Purchase.IVA, "$ "));
-        $("#Percepcion").html(formatNumber.new(Purchase.Perception, "$ "));
-        $("#Total").html(formatNumber.new(Purchase.DocTotal, "$ "));
+
+        $("#tdSubtotal").html(formatNumber.new(Purchase.SubTotal.toFixed(2), "$ "));
+        $("#IVA").html(formatNumber.new(Purchase.IVA.toFixed(2), "$ "));
+        $("#Percepcion").html(formatNumber.new(Purchase.Perception.toFixed(2), "$ "));
+        $("#Total").html(formatNumber.new(Purchase.DocTotal.toFixed(2), "$ "));
+
     } else {
         $("#tdSubtotal").html(formatNumber.new(0, "$ "));
         $("#IVA").html(formatNumber.new(0, "$ "));

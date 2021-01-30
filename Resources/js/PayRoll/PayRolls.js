@@ -88,6 +88,16 @@ $('#DateIn').datetimepicker({
 });
 
 
+$('#NewDateIn').datetimepicker({
+    language: 'es',
+    autoclose: 1,
+    startView: 2,
+    minView: 2,
+    calendarWeeks: false,
+    format: "yyyy-mm-dd"
+});
+
+var IdPayroll = "";
 var ultimaFila = null;
 var colorOriginalPAR = "#ffffff";
 var colorOriginalIMPAR = "#ffe35c";
@@ -253,4 +263,87 @@ $('#btnPayRoll').click(function () {
 
     $("#modalBody2").load("/PayRoll/DownloadPayRoll/?fecha=" + $("#PayDate").val());
     $("#modalDataPrint").modal('show');
+});
+
+
+$('#btnChangeDate').click(function () {
+    $("#modalContentUpdatePayRoll").html("Modificar Planilla");
+
+    $("#modalUpdatePayRoll").modal('show');
+});
+
+
+$('#Update').click(function () {
+    if (IdPayroll == 0 || IdPayroll == "" || IdPayroll==null) {
+        alertify.error("Debe selecionar una Planilla para continuar");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        traditional: true,
+        url: '/PayRoll/ChangeDatePayRoll',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ id: IdPayroll, date: $("#NewPayDate").val(), DatePayRolls: $("#PayDate").val() }),
+        success: function (result) {
+            if (result.Res) {
+                alertify.success("datos Obtenidos con Exito");
+
+                $('#tblPayRolls').DataTable().destroy();
+                $('#tblPayRolls tbody').empty();
+                $('#tblPayRolls2').DataTable().destroy();
+                $('#tblPayRolls2 tbody').empty();
+                $.each(result.Payrolls, function (i, item) {
+                    /* Vamos agregando a nuestra tabla las filas necesarias */
+                    var fecha = moment(item.PayDate).format('YYYY-MM-DD');
+                    if (item.NumPay == 1) {
+                        $('#tblPayRolls tbody').append("<tr><td>" + item.IdPayroll + "</td><td>"
+                                                                    + item.IdEmploye + "</td><td>"
+                                                                    + item.EmployeName + "</td><td>"
+                                                                    + item.EmployeLastName + "</td><td hidden>"
+                                                                    + item.BaseSalary + "</td><td hidden>"
+                                                                    + item.EarnedSalary + "</td><td hidden>"
+                                                                    + item.Holidays + "</td><td hidden>"
+                                                                    + item.AFP + "</td><td hidden>"
+                                                                    + item.ISSS + "</td><td hidden>"
+                                                                    + item.Rent + "</td><td hidden>"
+                                                                    + item.OtherDiscounts + "</td><td hidden>"
+                                                                    + item.DialingDiscount + "</td><td hidden>"
+                                                                    + item.Bonus + "</td><td hidden>"
+                                                                    + item.Compensation + "</td><td>"
+                                                                    + item.NetSalary + "</td><td>"
+                                                                    + fecha + "</td><td hidden>"
+                                                                    + item.PayMonth + "</td><td hidden>"
+                                                                    + item.NumPay + "</td></tr>");
+                    } else {
+                        $('#tblPayRolls2 tbody').append("<tr><td>" + item.IdPayroll + "</td><td>"
+                                                                    + item.IdEmploye + "</td><td>"
+                                                                    + item.EmployeName + "</td><td>"
+                                                                    + item.EmployeLastName + "</td><td hidden>"
+                                                                    + item.BaseSalary + "</td><td hidden>"
+                                                                    + item.EarnedSalary + "</td><td hidden>"
+                                                                    + item.Holidays + "</td><td hidden>"
+                                                                    + item.AFP + "</td><td hidden>"
+                                                                    + item.ISSS + "</td><td hidden>"
+                                                                    + item.Rent + "</td><td hidden>"
+                                                                    + item.OtherDiscounts + "</td><td hidden>"
+                                                                    + item.DialingDiscount + "</td><td hidden>"
+                                                                    + item.Bonus + "</td><td hidden>"
+                                                                    + item.Compensation + "</td><td>"
+                                                                    + item.NetSalary + "</td><td>"
+                                                                    + fecha + "</td><td hidden>"
+                                                                    + item.PayMonth + "</td><td hidden>"
+                                                                    + item.NumPay + "</td></tr>");
+                    }
+                });
+                CallBack();
+                CallBack2();
+
+            } else {
+                alertify.error("Ha ocurrido un error");
+            }
+        },
+        error: function () {
+            alertify.error("Ha ocurrido un error");
+        }
+    });
 });

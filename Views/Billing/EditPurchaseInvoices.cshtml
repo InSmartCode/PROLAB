@@ -126,8 +126,8 @@
                                 <td class="col-name">@item.ItemCode</td>
                                 <td class="col-name">@item.ItemName</td>
                                 <td class="col-name">@item.Quantity</td>
-                                <td class="col-name">@item.UnitPrice</td>
-                                <td class="col-name">@item.LineTotal</td>
+                                <td class="col-name">@Math.Round(item.UnitPrice, 2)</td>
+                                <td class="col-name">@Math.Round(item.LineTotal, 2)</td>
                             </tr>
                         }
                     </tbody>
@@ -135,12 +135,12 @@
                         <tr>
                             <td colspan="4"></td>
                             <td>Subtotal</td>
-                            <td id="tdSubtotal" width="150px" style="text-align:left;">@ViewBag.Purchase.SubTotal</td>
+                            <td id="tdSubtotal" width="150px" style="text-align:left;">@Math.Round(ViewBag.Purchase.SubTotal, 2)</td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td style=""><b>IVA</b></td>
-                            <td id="IVA" style="text-align:left;">@ViewBag.Purchase.IVA</td>
+                            <td id="IVA" style="text-align:left;">@Math.Round(ViewBag.Purchase.IVA, 2)</td>
                         </tr>
                         <tr hidden>
                             <td colspan="4"></td>
@@ -150,7 +150,7 @@
                         <tr style="font-weight: bold;">
                             <td colspan="4"></td>
                             <td>Total</td>
-                            <td id="Total" style="text-align:left;">@ViewBag.Purchase.DocTotal</td>
+                            <td id="Total" style="text-align:left;">@Math.Round(ViewBag.Purchase.DocTotal, 2)</td>
                         </tr>
                     </tfoot>
                 </table>

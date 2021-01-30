@@ -81,7 +81,7 @@
                                 <td class="col-name">@item.ClienteProvName</td>
                                 <td class="col-name">@item.NumAtCard</td>
                                 <td class="col-name">@item.DocDate.ToString("dd/MM/yyyy")</td>
-                                <td class="col-name">@item.DocTotal</td>
+                                <td class="col-name">@Math.Round(item.DocTotal, 2)</td>
                                 <td class="col-name">@item.Status</td>
                             </tr>
                         }
