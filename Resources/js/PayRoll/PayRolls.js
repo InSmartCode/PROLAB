@@ -36,10 +36,12 @@ function CallBack() {
         ultimaFila = $(this);
 
         $('#btnPrintPayment').prop("disabled", false);
+        $('#btnChangeDate').prop("disabled", false);
     });
 
 
-    $('#btnPrintPayment').prop("disabled", true);
+    $('#btnPrintPayment').prop("disabled", true); 
+    $('#btnChangeDate').prop("disabled", true);
 }
 
 function CallBack2() {
@@ -74,8 +76,10 @@ function CallBack2() {
         ultimaFila = $(this);
 
         $('#btnPrintPayment').prop("disabled", false);
+        $('#btnChangeDate').prop("disabled", false);
     });
     $('#btnPrintPayment').prop("disabled", true);
+    $('#btnChangeDate').prop("disabled", true);
 }
 
 $('#DateIn').datetimepicker({
@@ -131,6 +135,7 @@ $('#tblPayRolls tbody').on('click', 'tr', function () {
     ultimaFila = $(this);
 
     $('#btnPrintPayment').prop("disabled", false);
+    $('#btnChangeDate').prop("disabled", false);
 });
 
 $('#tblPayRolls2 tbody').on('click', 'tr', function () {
@@ -162,6 +167,7 @@ $('#tblPayRolls2 tbody').on('click', 'tr', function () {
     ultimaFila = $(this);
 
     $('#btnPrintPayment').prop("disabled", false);
+    $('#btnChangeDate').prop("disabled", false);
 });
 
 
