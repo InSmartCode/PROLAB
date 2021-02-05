@@ -39,7 +39,7 @@
        
         <br />
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="inputs" id="OldCustomer">
                         <div class="form-group form-md-line-input" id="form_control_1">
                             <label for="cliente">Cliente</label>
@@ -58,7 +58,7 @@
                         <input type="text" class="form-control" id="NumAtCard" />
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group form-md-line-input" id="form_control_1">
                         <label for="cliente">Orden</label>
                         <select class=" form-control" name="IdComentsOrder" id="IdComentsOrder" style="width: 100%; height:38px;">
@@ -77,10 +77,14 @@
                         <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
                     </div>
                 </div>
-                <div class="col-md-4" hidden>
+                <div class="col-md-2">
                     <div class="form-group">
                         <label for="SalesType">Tipo de Venta</label>
-                        <input type="text" class="form-control" id="SalesType" value="F"/>
+                        <select class=" form-control" name="SalesType" id="SalesType" style="width: 100%; height:38px;" onchange="UpdateSaleInfo()">
+                            <option value="" selected>Seleccione</option>
+                            <option value="C" >Consumidor Final</option>
+                            <option value="F" >Crédito Fiscal</option>
+                        </select>
                     </div>
                 </div>
 

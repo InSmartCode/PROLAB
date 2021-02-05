@@ -445,7 +445,9 @@ $('#btnDeleteItem').click(function () {
         ItemCode: $("#ItemCodeUpdate").val(),
         ItemName: $("#ItemNameUpdate").val(),
         Quantity: 0,
-        UnitPrice: $("#PriceUpdate").val()
+        UnitPrice: $("#PriceUpdate").val(),
+        IdComentsOrder: $('#IdComentsOrder').val(),
+        SalesType: $("#SalesType").val()
     };
 
     $.ajax({
@@ -491,7 +493,8 @@ function AddItem() {
         ItemCode: $("#ItemCode").val(),
         ItemName: $("#ItemName").val(),
         Quantity: $("#Quantity").val(),
-        UnitPrice: $("#Price").val()
+        UnitPrice: $("#Price").val(),
+        SalesType: $("#SalesType").val()
     };
 
     if (numero == '') {
@@ -563,7 +566,9 @@ function UpdateItem() {
         ItemCode: $("#ItemCodeUpdate").val(),
         ItemName: $("#ItemNameUpdate").val(),
         Quantity: $("#QuantityUpdate").val(),
-        UnitPrice: $("#PriceUpdate").val()
+        UnitPrice: $("#PriceUpdate").val(),
+        IdComentsOrder: $('#IdComentsOrder').val(),
+        SalesType: $("#SalesType").val()
     };
 
     if (numero == '') {
@@ -681,6 +686,35 @@ function SaveSale() {
 
             if (result.Res == true) {
                 alertify.success('Realizado');
+            } else {
+                alertify.error('Ha ocurrido un error ');
+            }
+        },
+        error: function () {
+            alertify.error('Ha ocurrido un error al ingresar el producto');
+        }
+    });
+}
+
+
+function UpdateSaleInfo() {
+
+    $.ajax({
+        type: "POST",
+        traditional: true,
+        url: "/Billing/UpdateSale/",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ IdClient: $('#idcliente').val(), NumAtCard: $("#NumAtCard").val(), IdComentsOrder: $('#IdComentsOrder').val(), SalesType: $("#SalesType").val() }),
+        success: function (result) {
+
+            if (result.Res == true) {
+                alertify.success('Realizado');
+                
+                $("#tdSubtotal").html(formatNumber.new(result.Sale.SubTotal.toFixed(2), "$ "));
+                $("#IVA").html(formatNumber.new(result.Sale.IVA.toFixed(2), "$ "));
+                $("#Percepcion").html(formatNumber.new(result.Sale.Perception.toFixed(2), "$ "));
+                $("#Total").html(formatNumber.new(result.Sale.DocTotal.toFixed(2), "$ "));
+
             } else {
                 alertify.error('Ha ocurrido un error ');
             }
