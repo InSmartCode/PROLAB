@@ -219,17 +219,63 @@
 </div>
 
 <div class="modal fade" id="modalUpdatePayRoll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog " role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 id="modalContentUpdatePayRoll" class="text-center" style="margin-bottom: 0px;"></h4>
             </div>
             <div class="modal-body d-flex justify-content-center" id="">
-                <div class="col-md-12">
-                    <label for="NewDateIn">Fecha Contratación</label>
-                    <div id="NewDateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                        <input class="form-control" size="16" type="text" value="@ViewBag.NewFecha" id="NewPayDate" onchange="" readonly>
-                        <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="IdPayRoll">No. Planilla</label>
+                        <input class="form-control" size="16" type="text" id="IdPayRoll" onchange="" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="NewDateIn">Fecha Contratación</label>
+                        <div id="NewDateIn" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input class="form-control" size="16" type="text" value="@ViewBag.NewFecha" id="NewPayDate" onchange="" readonly>
+                            <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="BaseSalary">Salario Fijo</label>
+                        <input class="form-control" size="16" type="text" id="BaseSalary" onchange="" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="EarnedSalary">Salario Devengado</label>
+                        <input class="form-control" size="16" type="text" id="EarnedSalary" onchange="" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Holidays">Vacaciones</label>
+                        <input class="form-control" size="16" type="text" id="Holidays" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="AFP">AFP</label>
+                        <input class="form-control" size="16" type="text" id="AFP" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="ISSS">ISSS</label>
+                        <input class="form-control" size="16" type="text" id="ISSS" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Rent">Renta</label>
+                        <input class="form-control" size="16" type="text" id="Rent" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="OtherDiscounts">Otros Descountos</label>
+                        <input class="form-control" size="16" type="text" id="OtherDiscounts" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Bonus">Aguinaldo</label>
+                        <input class="form-control" size="16" type="text" id="Bonus" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Compensation">Indemnización</label>
+                        <input class="form-control" size="16" type="text" id="Compensation" onchange="" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="NetSalary">Neto a Pagar</label>
+                        <input class="form-control" size="16" type="text" id="NetSalary" onchange="" readonly>
                     </div>
                 </div>
             </div>

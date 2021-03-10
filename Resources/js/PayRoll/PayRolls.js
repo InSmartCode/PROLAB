@@ -261,7 +261,6 @@ $('#btnPrintPayment').click(function () {
     $("#modalDataPrint").modal('show');
 });
 
-
 $('#btnPayRoll').click(function () {
     var pdate = $("#PayDate").val();
     //window.location = "/PayRoll/DownloadPayRoll/?fecha=" + $("#PayDate").val();
@@ -272,8 +271,66 @@ $('#btnPayRoll').click(function () {
 });
 
 
+$("#Holidays").on("keyup", function () {
+    CalculateNEtSalary();
+})
+$("#AFP").on("keyup", function () {
+    CalculateNEtSalary();
+})
+$("#ISSS").on("keyup", function () {
+    CalculateNEtSalary();
+})
+$("#Rent").on("keyup", function () {
+    CalculateNEtSalary();
+})
+$("#OtherDiscounts").on("keyup", function () {
+    CalculateNEtSalary();
+})
+$("#Bonus").on("keyup", function () {
+    CalculateNEtSalary();
+})
+$("#Compensation").on("keyup", function () {
+    CalculateNEtSalary();
+})
+
+function CalculateNEtSalary() {   
+
+    var ES = Number.parseFloat($("#EarnedSalary").val());
+    var H = Number.parseFloat($("#Holidays").val());
+    var A = Number.parseFloat($("#AFP").val());
+    var I = Number.parseFloat($("#ISSS").val());
+    var R = Number.parseFloat($("#Rent").val());
+    var OD = Number.parseFloat($("#OtherDiscounts").val());
+    var B = Number.parseFloat($("#Bonus").val());
+    var C = Number.parseFloat($("#Compensation").val());
+
+    if ($("#EarnedSalary").val() == "") { ES = 0; }
+    if ($("#Holidays").val() == "") { H = 0; }
+    if ($("#AFP").val() == "") { A = 0; }
+    if ($("#ISSS").val() == "") { I = 0; }
+    if ($("#Rent").val() == "") { R = 0; }
+    if ($("#OtherDiscounts").val() == "") { OD = 0; }
+    if ($("#Bonus").val() == "") { B = 0; }
+    if ($("#Compensation").val() == "") { C = 0; }
+
+    var NS = ES + H - A -I - R - OD + B + C;
+    $("#NetSalary").val(NS);
+}
+
 $('#btnChangeDate').click(function () {
     $("#modalContentUpdatePayRoll").html("Modificar Planilla");
+
+    $("#IdPayRoll").val(IdPayroll);
+    $("#BaseSalary").val(BaseSalary);
+    $("#EarnedSalary").val(EarnedSalary);
+    $("#Holidays").val(Holidays);
+    $("#AFP").val(AFP);
+    $("#ISSS").val(ISSS);
+    $("#Rent").val(Rent);
+    $("#OtherDiscounts").val(OtherDiscounts);
+    $("#Bonus").val(Bonus);
+    $("#Compensation").val(Compensation);
+    $("#NetSalary").val(NetSalary);
 
     $("#modalUpdatePayRoll").modal('show');
 });
@@ -284,12 +341,24 @@ $('#Update').click(function () {
         alertify.error("Debe selecionar una Planilla para continuar");
         return;
     }
+    var datos = {
+        id: IdPayroll, date: $("#NewPayDate").val()
+        ,  Holidays: $("#Holidays").val()
+        ,  AFP: $("#AFP").val()
+        ,  ISSS: $("#ISSS").val()
+        ,  Rent: $("#Rent").val()
+        ,  OtherDiscounts: $("#OtherDiscounts").val()
+        ,  Bonus: $("#Bonus").val()
+        ,  Compensation: $("#Compensation").val()
+        ,  NetSalary: $("#NetSalary").val()
+        , DatePayRolls: $("#PayDate").val()
+    }
     $.ajax({
         type: "POST",
         traditional: true,
-        url: '/PayRoll/ChangeDatePayRoll',
+        url: '/PayRoll/UpdatePayRoll',
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ id: IdPayroll, date: $("#NewPayDate").val(), DatePayRolls: $("#PayDate").val() }),
+        data: JSON.stringify(datos),
         success: function (result) {
             if (result.Res) {
                 alertify.success("datos Obtenidos con Exito");
