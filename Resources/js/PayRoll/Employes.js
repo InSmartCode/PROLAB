@@ -116,6 +116,14 @@ $('#DateIn').datetimepicker({
     calendarWeeks: false,
     format: "yyyy-mm-dd"
 });
+$('#DateIn2').datetimepicker({
+    language: 'es',
+    autoclose: 1,
+    startView: 3,
+    minView: 3,
+    calendarWeeks: false,
+    format: "mm"
+});
 
 
 var ultimaFila = null;
@@ -149,6 +157,9 @@ $('#tblEmployes tbody').on('click', 'tr', function () {
 
     $('#btnEdit').prop("disabled", false);
     $('#btnPayment').prop("disabled", false);
+    $('#btnAddWorkingDays').prop("disabled", false);
+
+    GetWorkingDay(IdEmploye);
 });
 
 
@@ -363,6 +374,7 @@ function CreatePaymentAll() {
                    success: function (result) {
                        if (result.Res) {
                            alertify.success("Pago Generado con Éxito. Redireccionando.....");
+                           window.location = "/PayRoll/PayRolls";
                        } else {
                            alertify.error("Ha ocurrido un error");
                        }
@@ -377,4 +389,134 @@ function CreatePaymentAll() {
              });
 
   
+}
+
+
+
+
+function AddWorkingDays(){
+    if (IdEmploye == 0 || IdEmploye == "") {
+        alertify.warning("Debe de seleccionar un Employe");
+    } else {
+        $("#modalHeader2").html("Agregar Días Laborados");
+
+        $("#NumDaysWorked").val("");
+        $("#ValueOfDay").val("");
+        $("#NumPay").val("");
+
+
+        $('#Update').prop("hidden", false);
+        $('#Save').prop("hidden", true);
+
+        $("#modalWorkingDays").modal('show');
+    }
+
+}
+
+
+$("#Save2").on("click", function () {
+    if (IdWorkingDay == 0 || IdWorkingDay == "") {
+        alertify.warning("Debe de seleccionar un Dia Laborado");
+    } else {
+        datos = {
+            IdEmploye: IdEmploye
+            , NumDaysWorked: $("#NumDaysWorked").val()
+            , ValueOfDay: $("#ValueOfDay").val()
+            , Month: $("#Month").val()
+            , NumPay: $("#NumPay").val()
+        }
+
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            url: '/PayRoll/AddWorkingDay',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(datos),
+            success: function (result) {
+                if (result.Res) {
+                    alertify.success("Dias Laborados Obtenidos.");
+                    $('#tblWorkingDays tbody').empty();
+                    $.each(result.Days, function (i, item) {
+                        /* Vamos agregando a nuestra tabla las filas necesarias */
+                        $('#tblWorkingDays tbody').append("<tr><td>" + item.IdWorkingDay + "</td><td>"
+                                                                     + item.NumDaysWorked + "</td><td>"
+                                                                     + item.ValueOfDay + "</td><td>"
+                                                                     + item.Month + "</td><td>"
+                                                                     + item.NumPay + "</td><td >"
+                                                                     + "<a class='fas fa-trash' onclick='DeleteWorkingDay(" + item.IdWorkingDay + ");'></a>" + "</td></tr>");
+                    });
+                } else {
+                    alertify.error("Ha ocurrido un error con la base de datos");
+                }
+            },
+            error: function () {
+                alertify.error("Ha ocurrido un error");
+            }
+        });
+
+    }
+});
+
+
+
+
+
+function GetWorkingDay(IdEmploye) {
+    $.ajax({
+        type: "POST",
+        traditional: true,
+        url: '/PayRoll/GetWorkingDay',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ IdEmploye: IdEmploye }),
+        success: function (result) {
+            if (result.Res) {
+                alertify.success("Dias Laborados Obtenidos.");
+                $('#tblWorkingDays tbody').empty();
+                $.each(result.Days, function (i, item) {
+                    /* Vamos agregando a nuestra tabla las filas necesarias */
+                    $('#tblWorkingDays tbody').append("<tr><td>" + item.IdWorkingDay + "</td><td>"
+                                                                 + item.NumDaysWorked + "</td><td>"
+                                                                 + item.ValueOfDay + "</td><td>"
+                                                                 + item.Month + "</td><td>"
+                                                                 + item.NumPay + "</td><td >"
+                                                                     + "<a class='fas fa-trash' onclick='DeleteWorkingDay(" + item.IdWorkingDay + ");'></a>" + "</td></tr>");
+                });      
+            } else {
+                alertify.error("Ha ocurrido un error con la base de datos");
+            }
+        },
+        error: function () {
+            alertify.error("Ha ocurrido un error");
+        }
+    });
+}
+
+function DeleteWorkingDay(IdWorkingDay) {
+    $.ajax({
+        type: "POST",
+        traditional: true,
+        url: '/PayRoll/DeleteWorkingDay',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({IdWorkingDay: IdWorkingDay, IdEmploye: IdEmploye }),
+        success: function (result) {
+            if (result.Res) {
+                alertify.success("Dias Laborados Obtenidos.");
+                $('#tblWorkingDays tbody').empty();
+                $.each(result.Days, function (i, item) {
+                    /* Vamos agregando a nuestra tabla las filas necesarias */
+                    $('#tblWorkingDays tbody').append("<tr><td>" + item.IdWorkingDay + "</td><td>"
+                                                                 + item.NumDaysWorked + "</td><td>"
+                                                                 + item.ValueOfDay + "</td><td>"
+                                                                 + item.Month + "</td><td>"
+                                                                 + item.NumPay + "</td><td >"
+                                                                     + "<a class='fas fa-trash' onclick='DeleteWorkingDay(" + item.IdWorkingDay + ");'></a>" + "</td></tr>");
+                });
+            } else {
+                alertify.error("Ha ocurrido un error con la base de datos");
+            }
+        },
+        error: function () {
+            alertify.error("Ha ocurrido un error");
+        }
+    });
 }

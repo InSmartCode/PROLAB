@@ -52,6 +52,11 @@
                 Crear Pago
             </button>
 
+            <button class="btn btn-light" disabled id="btnAddWorkingDays" onclick="AddWorkingDays()">
+                <i class="fas fa-plus-circle"></i>
+               Agregar Dias Laborados
+            </button>
+
             <button class="btn btn-primary" id="btnPaymentAll" onclick="CreatePaymentAll()">
                 <i class="fas fa-money-check"></i>
                 Crear Pago Todos
@@ -237,6 +242,80 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalWorkingDays" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h4 id="modalHeader2" class="text-center" style="margin-bottom: 0px;"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="row">
+                    <div class="col-md-6" hidden>
+                        <div class="form-group">
+                            <label for="IdWorkingDay">IdWorkingDay</label>
+                            <input type="text" class="form-control" id="IdWorkingDay" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="NumDaysWorked">Días Laborados</label>
+                            <input type="text" class="form-control" id="NumDaysWorked" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="ValueOfDay">Valor/Día Laborado</label>
+                            <input type="text" class="form-control" id="ValueOfDay" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="DateIn">Mes</label>
+                        <div id="DateIn2" class="input-group date form_date" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input class="form-control" size="16" type="text" value="@DateTime.Now.ToString("MM")" id="Month" onchange="" readonly>
+                            <a class="input-group-addon btn btn-info"><i class="fas fa-calendar text-white"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="NumPay">Número de Pago</label>
+                            <select class="form-control" id="NumPay">
+                                <option value="">Selecione..</option>
+                                <option value="1">Primera Quincena</option>
+                                <option value="2">Segunda Quincena</option>
+                                <option value="3">Mensual</option>
+                            </select>
+                        </div>
+                    </div>                    
+                </div>
+                <hr />
+                <div class="row">
+                    <table class="table table-bordered table-sm" id="tblWorkingDays" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Dias Laborados</th>
+                                <th>Valor del Dia</th>
+                                <th>Número de Mes</th>
+                                <th>Número de Pago</th>
+                                <th>Opción </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Save2">Guardar</button>
+                @*<button type="button" class="btn btn-warning" data-dismiss="modal" id="Update2">Modificar</button>*@
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts{
     @Scripts.Render("~/Scripts/Employes")
