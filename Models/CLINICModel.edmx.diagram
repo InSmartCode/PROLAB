@@ -37,6 +37,7 @@
         <EntityTypeShape EntityType="CLINICModel.tbl_ComentsOrder" Width="1.5" PointX="18.875" PointY="6.125" />
         <EntityTypeShape EntityType="CLINICModel.tbl_PAYROLL_Payrolls" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="CLINICModel.tbl_PAYROLL_WorkingDays" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="CLINICModel.tbl_Recipes" Width="1.5" PointX="11.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

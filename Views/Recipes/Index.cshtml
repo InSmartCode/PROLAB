@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section styles{
+    @Styles.Render("~/Content/Patients")
+    <link href="~/Resources/plugins/jquery-easyui-1.9.4/themes/material/easyui.css" rel="stylesheet" />
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Home/Index">Inventario</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="actionLinkBreadcrumb" href="/Recipes/Index">Recetas</a>
+        </li>
+        <li class="breadcrumb-item active">Index</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <h3>
+        <i class="fas fa-users"></i>
+        <b>Recetas</b>
+    </h3>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-list"></i>
+                Productos
+            </div>
+            <div class="card-body" style="font-size:small;">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="tblProductos" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ItemCode</th>
+                                <th>Descripción</th>
+                                <th>Costo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Invetory)
+                            {
+                                <tr>
+                                    <td>@item.ItemCode</td>
+                                    <td>@item.ItemName</td>
+                                    <td>@item.Cost</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">
+                Actualizado @DateTime.Now
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-users"></i>
+                Insumos
+            </div>
+            <div class="card-body" style="font-size:small;">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success" onclick="NewReceta()">
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo
+                    </button>
+
+                    <button class="btn btn-warning" disabled id="btnEdit" onclick="EditReceta()">
+                        <i class="fas fa-edit"></i>
+                        Modificar
+                    </button>
+
+
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="tblRecetas" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Cod.</th>
+                                <th>Descripción</th>
+                                <th>Cantitdad</th>
+                                <th>U/M</th>
+                                <th>Costo</th>
+                                <th>C/C</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in ViewBag.Recetas)
+                            {
+                                <tr>
+                                    <td>@item.IdRecipe</td>
+                                    <td>@item.ItemCodeInput</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitOfMeasurement</td>
+                                    <td>@item.Cost</td>
+                                    <td>@item.CostXQuantity</td>
+                                </tr>
+                            }*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">
+                Actualizado @DateTime.Now
+            </div>
+        </div>
+
+    </div>
+</div>
+
+        
+        <!-- Salto para que quede ordenado con el footer -->
+        <br />
+
+        <!-- Ventana modal para mantenimiento de los usuarios -->
+        <div class="modal fade" id="modalReceta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="modalContent">
+                    <div class="modal-header">
+                        <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-12">
+                                    <div class="inputs" id="OldCustomer">
+                                        <label for="Insumo">Insumo</label>
+                                        <div class="form-group form-md-line-input" id="form_control_1">
+                                            <select class="easyui-combobox form-control" name="Insumo" id="Insumo" style="width: 435px; height:38px;">
+                                                <option value="" selected></option>
+                                                @foreach (var item in ViewBag.Invetory)
+                                                {
+                                                    <option value="@item.ItemCode">@item.ItemCode - @item.ItemName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="Quantity">Cantidad</label>
+                                        <input type="text" class="form-control" id="Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="UnitOfMeasurement">Unidad de Medida</label>
+                                        <input type="text" class="form-control" id="UnitOfMeasurement" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="Cost">Costo</label>
+                                        <input type="text" class="form-control" id="Cost" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="CostXQuantity">Costo X Cantidad</label>
+                                        <input type="text" class="form-control" id="CostXQuantity" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" id="Save">Guardar</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update">Modificar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts{
+            @Scripts.Render("~/Scripts/Recipes")
+        }
+
+
+
+
+
+
+
+
