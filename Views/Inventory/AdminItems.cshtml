@@ -34,35 +34,54 @@
     </div>
     <div class="card-body" style="font-size:small;">
         <div class="d-flex justify-content-center">
-            <button class="btn btn-outline-success" onclick="NewItem()">
-                <i class="fas fa-user-plus"></i>
-                Nuevo
-            </button>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-outline-success" onclick="NewItem()">
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo
+                    </button>
 
-            <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditItem()">
-                <i class="fas fa-edit"></i>
-                Modificar
-            </button>
+                    <button class="btn btn-outline-warning" disabled id="btnEdit" onclick="EditItem()">
+                        <i class="fas fa-edit"></i>
+                        Modificar
+                    </button>
 
-            <button class="btn btn-outline-info" id="ImportData" onclick="ImportData()">
-                <i class="fas fa-upload"></i>
-                Importar Datos
-            </button>
+                    <button class="btn btn-outline-primary" id="ImportData" onclick="ImportData()">
+                        <i class="fas fa-upload"></i>
+                        Importar Datos
+                    </button>
 
-            <button class="btn btn-outline-primary" id="DownInventory" onclick="DownInventory()">
-                <i class="fas fa-arrow-alt-circle-down"></i>
-                Descarga de Inventario
-            </button>
+                    <button class="btn btn-outline-primary" id="DownInventory" onclick="DownInventory()">
+                        <i class="fas fa-arrow-alt-circle-down"></i>
+                        Descarga de Inventario
+                    </button>
 
-            <button class="btn btn-outline-info" id="UpInventory" onclick="UpInventory()">
-                <i class="fas fa-arrow-alt-circle-up"></i>
-                Carga de Inventario
-            </button>
+                    <button class="btn btn-outline-primary" id="UpInventory" onclick="UpInventory()">
+                        <i class="fas fa-arrow-alt-circle-up"></i>
+                        Carga de Inventario
+                    </button>
 
-            <button class="btn btn-outline-info" id="UpInventory" onclick="DownloadInventory()">
-                <i class="fas fa-file-download"></i>
-                Descargar PDF
-            </button>
+                    <br /> <br />
+                </div>
+                <div class="col-md-12 text-center">
+                    
+
+                    <button class="btn btn-outline-info" id="UpInventory" onclick="DownloadInventory()">
+                        <i class="fas fa-file-download"></i>
+                        Descargar PDF
+                    </button>
+
+
+                    <button class="btn btn-outline-info" id="InventoryLog" onclick="DownloadInventoryLog()">
+                        <i class="fas fa-file-download"></i>
+                        Descargar Movimientos al Inventario
+                    </button>
+                </div>
+            </div>
+            
+
+           
+
         </div>
         <br />
         <div class="table-responsive">
@@ -260,7 +279,7 @@
     <div class="modal-dialog " role="document">
         <div class="modal-content" id="modalContent">
             <div class="modal-header">
-                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;">Importar Inventario</h4>
             </div>
             <div class="modal-body" id="modalBody">
                 <div class="row">
@@ -276,7 +295,7 @@
                                     </div>
 
                                     <div class="form-actions">
-                                        <button class="btn btn-success btn-block" id="btnSubmitImport" type="submit">Cargar presupuesto</button>
+                                        <button class="btn btn-success btn-block" id="btnSubmitImport" type="submit">Importar</button>
                                     </div>
                                 }
                             </div>
@@ -296,7 +315,7 @@
     <div class="modal-dialog " role="document">
         <div class="modal-content" id="modalContent">
             <div class="modal-header">
-                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;">Descargar Inventario</h4>
             </div>
             <div class="modal-body" id="modalBody">
                 <div class="row">
@@ -308,11 +327,11 @@
                                 @Html.ValidationSummary()
 
                                 <div class="form-group form-control">
-                                    <input type="file" name="fileDown" />
+                                    <input type="file" name="file" />
                                 </div>
 
                                 <div class="form-actions">
-                                    <button class="btn btn-success btn-block" id="btnSubmitDown" type="submit">Cargar presupuesto</button>
+                                    <button class="btn btn-success btn-block" id="btnSubmitDown" type="submit">Descargar Inventario</button>
                                 </div>
                             }
                         </div>
@@ -333,7 +352,7 @@
     <div class="modal-dialog " role="document">
         <div class="modal-content" id="modalContent">
             <div class="modal-header">
-                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;"></h4>
+                <h4 id="modalHeader" class="text-center" style="margin-bottom: 0px;">Cargar Inventario</h4>
             </div>
             <div class="modal-body" id="modalBody">
                 <div class="row">
@@ -345,11 +364,11 @@
                                 @Html.ValidationSummary()
 
                                 <div class="form-group form-control">
-                                    <input type="file" name="fileUp" />
+                                    <input type="file" name="file" />
                                 </div>
 
                                 <div class="form-actions">
-                                    <button class="btn btn-success btn-block" id="btnSubmitUp" type="submit">Cargar presupuesto</button>
+                                    <button class="btn btn-success btn-block" id="btnSubmitUp" type="submit">Cargar Inventario</button>
                                 </div>
                             }
                         </div>

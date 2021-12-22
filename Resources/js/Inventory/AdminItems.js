@@ -442,3 +442,7 @@ function DownloadInventory() {
     $("#modalBody2").load("/Inventory/DownloadPDFInventory/");
     $("#modalDataPrint").modal('show');
 }
+
+function DownloadInventoryLog() {
+    window.location.href = "/Inventory/DownloadLogInventory/" ;
+}
